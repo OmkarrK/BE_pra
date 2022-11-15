@@ -1,0 +1,109 @@
+...........DAA...........
+
+
+.............................Assignment 1 : Fibonacci...........................
+
+n=int(input("Enter the number : "))
+x=0
+y=1
+z=0
+while z<=n:
+       print(z)
+	x=y
+	y=z
+	z=x+y
+
+
+
+...........................Assignment 2 : Job Scheduling Greedy.............................
+
+
+def printJobScheduling(arr, t):
+
+	n = len(arr)
+
+	for i in range(n):
+		for j in range(n - 1 - i):
+			if arr[j][2] < arr[j + 1][2]:
+				arr[j], arr[j + 1] = arr[j + 1], arr[j]
+
+	result = [False] * t
+	job = ['-1'] * t
+
+	for i in range(len(arr)):
+		for j in range(min(t - 1, arr[i][1] - 1), -1, -1):
+			if result[j] is False:
+				result[j] = True
+				job[j] = arr[i][0]
+				break
+	print(job)
+if __name__ == '__main__':
+	arr = [['a', 2, 100], # Job Array
+			['b', 1, 19],
+			['c', 2, 27],
+			['d', 1, 25],
+			['e', 3, 15]]
+
+
+	print("Following is maximum profit sequence of jobs")
+	printJobScheduling(arr, 3)
+
+
+
+............................Assignment 3 :fractional knapsack problem using greedy method.........................
+
+class Item:
+	def __init__(self, value, weight):
+		self.value = value
+		self.weight = weight
+
+def fractionalKnapsack(W, arr):
+
+	arr.sort(key=lambda x: (x.value/x.weight), reverse=True)
+	finalvalue = 0.0
+
+	for item in arr:
+		if item.weight <= W:
+			W -= item.weight
+			finalvalue += item.value
+		else:
+			finalvalue += item.value * W / item.weight
+			break
+	
+	return finalvalue
+
+if __name__ == "__main__":
+
+	W = 50
+	arr = [Item(60, 10), Item(100, 20), Item(120, 30)]
+
+	max_val = fractionalKnapsack(W, arr)
+	print(max_val)
+
+
+
+...................................Assignment 4 : 0/1 Knapsack problem dynamic..................................
+
+def knapSack(W, wt, val, n):
+	K = [[0 for x in range(W + 1)] for x in range(n + 1)]
+	for i in range(n + 1):
+		for w in range(W + 1):
+			if i == 0 or w == 0:
+				K[i][w] = 0
+			elif wt[i-1] <= w:
+				K[i][w] = max(val[i-1] + K[i-1][w-wt[i-1]], K[i-1][w])
+			else:
+				K[i][w] = K[i-1][w]
+
+	return K[n][W]
+
+val = [60, 100, 120]
+wt = [10, 20, 30]
+W = 50
+n = len(val)
+print(knapSack(W, wt, val, n))
+
+
+
+
+
